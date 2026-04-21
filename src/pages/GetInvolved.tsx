@@ -63,9 +63,70 @@ export default function GetInvolved() {
                   </button>
                 ))}
               </div>
-              <div className="bg-white p-10 rounded-3xl shadow-xl border border-neutral-100 text-center">
-                <Button size="lg" className="w-full md:w-auto">PROCEED TO PAYMENT</Button>
-                <p className="mt-6 text-neutral-400 text-sm">Secure payment via Paystack</p>
+              <div className="bg-white p-8 md:p-12 rounded-3xl shadow-xl border border-neutral-100">
+                <div className="text-center mb-10">
+                  <h3 className="text-2xl font-display font-bold text-neutral-900 mb-2">Select Donation Method</h3>
+                  <p className="text-neutral-500">Every Naira counts toward changing a child's story.</p>
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  {/* Option 1: Paystack */}
+                  <div className="p-6 rounded-2xl border-2 border-neutral-50 flex flex-col justify-between bg-neutral-50/30">
+                    <div className="mb-6">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 rounded-lg overflow-hidden bg-white shadow-sm flex items-center justify-center p-1">
+                          <img 
+                            src="https://paystack.com/favicon.png" 
+                            alt="Paystack Logo" 
+                            className="w-full h-full object-contain"
+                            referrerPolicy="no-referrer"
+                          />
+                        </div>
+                        <h4 className="font-display font-bold text-xl text-primary">Paystack</h4>
+                      </div>
+                      <p className="text-sm text-neutral-600 leading-relaxed">
+                        Fast and secure payments using your Debit/Credit Card, Bank Transfer, or USSD.
+                      </p>
+                    </div>
+                    <Button className="w-full">DONATE VIA PAYSTACK</Button>
+                  </div>
+
+                  {/* Option 2: Paysabil */}
+                  <div className="p-6 rounded-2xl border-2 border-neutral-50 flex flex-col justify-between bg-neutral-50/30">
+                    <div className="mb-6">
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 rounded-lg overflow-hidden bg-white shadow-sm flex items-center justify-center p-1">
+                          <img 
+                            src="https://lh3.googleusercontent.com/d/1iqrz_PieF8xZTwi4O3RGB9D1pyYZSXlx" 
+                            alt="Paysabil Logo" 
+                            className="w-full h-full object-contain"
+                            referrerPolicy="no-referrer"
+                          />
+                        </div>
+                        <h4 className="font-display font-bold text-xl text-secondary">Paysabil</h4>
+                      </div>
+                      <p className="text-sm text-neutral-600 leading-relaxed mb-4">
+                        International and local donations via the Paysabil portal.
+                      </p>
+                      <div className="p-3 bg-white rounded-xl border border-neutral-200 text-xs text-neutral-500 italic">
+                        <span className="text-primary font-bold not-italic">Instructions:</span> After clicking, please search for <span className="font-bold text-neutral-900">"NonStop Charity"</span> in the organization list.
+                      </div>
+                    </div>
+                    <a 
+                      href="https://www.paysabil.com/list-of-organization.html" 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      className="block"
+                    >
+                      <Button variant="outline" className="w-full border-secondary text-secondary hover:bg-secondary hover:text-white">
+                        DONATE ON PAYSABIL
+                      </Button>
+                    </a>
+                  </div>
+                </div>
+                <p className="mt-8 text-neutral-400 text-xs text-center">
+                  By donating, you agree to our terms of service and privacy policy. 100% of your gift goes to the field.
+                </p>
               </div>
             </motion.div>
           ) : (
