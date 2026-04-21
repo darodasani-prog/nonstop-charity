@@ -37,18 +37,21 @@ export default function Home() {
 
     let animationId: number;
     let lastTime = 0;
-    const speed = 40; // pixels per second
+    const speed = 50; // pixels per second
 
     const scroll = (time: number) => {
       if (!lastTime) lastTime = time;
       const delta = (time - lastTime) / 1000;
       lastTime = time;
 
-      if (!isInteracting.current && el) {
+      if (el && !isInteracting.current) {
+        // Use a small accumulator to handle sub-pixel scrolling if necessary
         el.scrollLeft += speed * delta;
+        
         // Reset to start for seamless loop
+        // We use a safe threshold since we duplicated the images multiple times
         if (el.scrollLeft >= el.scrollWidth / 2) {
-          el.scrollLeft = 0;
+          el.scrollLeft = 1; // Small offset to avoid jump
         }
       }
       animationId = requestAnimationFrame(scroll);
@@ -69,16 +72,12 @@ export default function Home() {
     el.addEventListener('touchend', end);
     el.addEventListener('mousedown', start);
     el.addEventListener('mouseup', end);
-    el.addEventListener('mouseenter', start);
-    el.addEventListener('mouseleave', end);
 
     return () => {
       el.removeEventListener('touchstart', start);
       el.removeEventListener('touchend', end);
       el.removeEventListener('mousedown', start);
       el.removeEventListener('mouseup', end);
-      el.removeEventListener('mouseenter', start);
-      el.removeEventListener('mouseleave', end);
     };
   }, []);
 
@@ -375,10 +374,10 @@ export default function Home() {
         </div>
         <div 
           ref={scrollRef}
-          className="flex flex-nowrap gap-4 overflow-x-auto scrollbar-hide snap-x cursor-grab active:cursor-grabbing"
+          className="flex flex-nowrap gap-4 overflow-x-auto scrollbar-hide cursor-grab active:cursor-grabbing select-none"
         >
-          {[...galleryImages, ...galleryImages].map((img, i) => (
-            <div key={i} className="w-80 h-96 shrink-0 rounded-2xl overflow-hidden border-4 border-white/10 grayscale hover:grayscale-0 transition-all duration-500 snap-center">
+          {[...galleryImages, ...galleryImages, ...galleryImages].map((img, i) => (
+            <div key={i} className="w-80 h-96 shrink-0 rounded-2xl overflow-hidden border-4 border-white/10 grayscale hover:grayscale-0 transition-all duration-500">
               <img src={img} alt="Impact" className="w-full h-full object-cover pointer-events-none" />
             </div>
           ))}
