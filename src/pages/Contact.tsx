@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Phone, Send } from 'lucide-react';
+import { Mail, MapPin, Phone, Send, Linkedin, Instagram, Twitter } from 'lucide-react';
 import { Button } from '../components/Button';
 import { SectionHeading } from '../components/SectionHeading';
 
@@ -41,6 +41,36 @@ export default function Contact() {
                 <div>
                   <p className="font-display font-bold text-lg mb-1">Visit Us</p>
                   <p className="text-neutral-600">Katsina, Nigeria (Operating Nationwide)</p>
+                </div>
+              </div>
+
+              <div className="pt-8 border-t border-neutral-100">
+                <p className="font-display font-bold text-lg mb-4 text-neutral-900">Follow Our Journey</p>
+                <div className="flex gap-4">
+                  <a 
+                    href="https://www.linkedin.com/company/nonstop-charity/" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-all shadow-sm"
+                  >
+                    <Linkedin className="w-6 h-6" />
+                  </a>
+                  <a 
+                    href="https://www.instagram.com/nonstopcharity?igsh=MXM4ODN1c3Q5c2d3ag==" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="w-12 h-12 rounded-2xl bg-neutral-100 flex items-center justify-center text-neutral-600 hover:bg-primary hover:text-white transition-all shadow-sm"
+                  >
+                    <Instagram className="w-6 h-6" />
+                  </a>
+                  <a 
+                    href="https://x.com/NonstopCharity" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="w-12 h-12 rounded-2xl bg-neutral-100 flex items-center justify-center text-neutral-600 hover:bg-primary hover:text-white transition-all shadow-sm"
+                  >
+                    <Twitter className="w-6 h-6" />
+                  </a>
                 </div>
               </div>
             </div>

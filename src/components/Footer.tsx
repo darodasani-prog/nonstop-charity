@@ -23,13 +23,20 @@ export function Footer() {
             A youth-led Nigerian nonprofit fighting child poverty. Age is not a barrier to social change.
           </p>
           <div className="flex gap-4">
-            {[Instagram, Twitter, Linkedin, Facebook].map((Icon, i) => (
+            {[
+              { Icon: Instagram, href: "https://www.instagram.com/nonstopcharity?igsh=MXM4ODN1c3Q5c2d3ag==" },
+              { Icon: Twitter, href: "https://x.com/NonstopCharity" },
+              { Icon: Linkedin, href: "https://www.linkedin.com/company/nonstop-charity/" },
+              { Icon: Facebook, href: "https://facebook.com/nonstopcharity" }
+            ].map((social, i) => (
               <a
                 key={i}
-                href="#"
+                href={social.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-primary transition-colors"
               >
-                <Icon className="w-5 h-5" />
+                <social.Icon className="w-5 h-5" />
               </a>
             ))}
           </div>
