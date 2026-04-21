@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
 import { Calendar, Heart, Home as HomeIcon, Quote, Users, Utensils } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Button } from '../components/Button';
 import { ImpactCard } from '../components/ImpactCard';
 import { ProjectCard } from '../components/ProjectCard';
@@ -16,8 +16,71 @@ const heroImages = [
   "https://lh3.googleusercontent.com/d/15z5tyMlELCBpBatP4EqPO5I_TPcSG25q"
 ];
 
+const galleryImages = [
+  "https://lh3.googleusercontent.com/d/1cKkkgV-LA8L8-otsQObvYQNnCgbQ9oKy",
+  "https://lh3.googleusercontent.com/d/1tglv3NlrfMhtKrWayn8-sK6Ot7Py1VK6",
+  "https://lh3.googleusercontent.com/d/1ZzrHReQwfCEUFQchP6MQPzabwRuqKvkx",
+  "https://lh3.googleusercontent.com/d/1YFGdtWbsjgAJZhrJqqhxjMhmZFLrJhPq",
+  "https://lh3.googleusercontent.com/d/1Y3MTJ6QFIwiZ4pDZJpPSul58yHXcRWsD",
+  "https://lh3.googleusercontent.com/d/1V3LCplo9aDRcFcIc6N4D6D7ctsfpmAeq",
+  "https://lh3.googleusercontent.com/d/1JyhBA0g4dNzMP7P6W5NUAR4iHaEB175h"
+];
+
 export default function Home() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const isInteracting = useRef(false);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    let animationId: number;
+    let lastTime = 0;
+    const speed = 40; // pixels per second
+
+    const scroll = (time: number) => {
+      if (!lastTime) lastTime = time;
+      const delta = (time - lastTime) / 1000;
+      lastTime = time;
+
+      if (!isInteracting.current && el) {
+        el.scrollLeft += speed * delta;
+        // Reset to start for seamless loop
+        if (el.scrollLeft >= el.scrollWidth / 2) {
+          el.scrollLeft = 0;
+        }
+      }
+      animationId = requestAnimationFrame(scroll);
+    };
+
+    animationId = requestAnimationFrame(scroll);
+    return () => cancelAnimationFrame(animationId);
+  }, []);
+
+  useEffect(() => {
+    const el = scrollRef.current;
+    if (!el) return;
+
+    const start = () => { isInteracting.current = true; };
+    const end = () => { isInteracting.current = false; };
+
+    el.addEventListener('touchstart', start, { passive: true });
+    el.addEventListener('touchend', end);
+    el.addEventListener('mousedown', start);
+    el.addEventListener('mouseup', end);
+    el.addEventListener('mouseenter', start);
+    el.addEventListener('mouseleave', end);
+
+    return () => {
+      el.removeEventListener('touchstart', start);
+      el.removeEventListener('touchend', end);
+      el.removeEventListener('mousedown', start);
+      el.removeEventListener('mouseup', end);
+      el.removeEventListener('mouseenter', start);
+      el.removeEventListener('mouseleave', end);
+    };
+  }, []);
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -310,28 +373,13 @@ export default function Home() {
             className="text-white"
           />
         </div>
-        <div className="flex flex-nowrap gap-4 animate-marquee hover:pause-marquee">
-          {[
-            "https://lh3.googleusercontent.com/d/1cKkkgV-LA8L8-otsQObvYQNnCgbQ9oKy",
-            "https://lh3.googleusercontent.com/d/1tglv3NlrfMhtKrWayn8-sK6Ot7Py1VK6",
-            "https://lh3.googleusercontent.com/d/1ZzrHReQwfCEUFQchP6MQPzabwRuqKvkx",
-            "https://lh3.googleusercontent.com/d/1YFGdtWbsjgAJZhrJqqhxjMhmZFLrJhPq",
-            "https://lh3.googleusercontent.com/d/1Y3MTJ6QFIwiZ4pDZJpPSul58yHXcRWsD",
-            "https://lh3.googleusercontent.com/d/1V3LCplo9aDRcFcIc6N4D6D7ctsfpmAeq",
-            "https://lh3.googleusercontent.com/d/1JyhBA0g4dNzMP7P6W5NUAR4iHaEB175h"
-          ].map((img, i) => (
-            <div key={i} className="w-80 h-96 shrink-0 rounded-2xl overflow-hidden border-4 border-white/10 grayscale hover:grayscale-0 transition-all duration-500">
-              <img src={img} alt="Impact" className="w-full h-full object-cover" />
-            </div>
-          ))}
-          {/* Duplicate for seamless loop */}
-          {[
-            "https://lh3.googleusercontent.com/d/1cKkkgV-LA8L8-otsQObvYQNnCgbQ9oKy",
-            "https://lh3.googleusercontent.com/d/1tglv3NlrfMhtKrWayn8-sK6Ot7Py1VK6",
-            "https://lh3.googleusercontent.com/d/1ZzrHReQwfCEUFQchP6MQPzabwRuqKvkx"
-          ].map((img, i) => (
-            <div key={`dup-${i}`} className="w-80 h-96 shrink-0 rounded-2xl overflow-hidden border-4 border-white/10 grayscale hover:grayscale-0 transition-all duration-500">
-              <img src={img} alt="Impact" className="w-full h-full object-cover" />
+        <div 
+          ref={scrollRef}
+          className="flex flex-nowrap gap-4 overflow-x-auto scrollbar-hide snap-x cursor-grab active:cursor-grabbing"
+        >
+          {[...galleryImages, ...galleryImages].map((img, i) => (
+            <div key={i} className="w-80 h-96 shrink-0 rounded-2xl overflow-hidden border-4 border-white/10 grayscale hover:grayscale-0 transition-all duration-500 snap-center">
+              <img src={img} alt="Impact" className="w-full h-full object-cover pointer-events-none" />
             </div>
           ))}
         </div>
